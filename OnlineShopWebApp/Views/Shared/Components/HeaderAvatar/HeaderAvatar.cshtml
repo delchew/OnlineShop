@@ -1,0 +1,9 @@
+﻿<!--Header Avatar-->
+@model string
+
+@if (!string.IsNullOrEmpty(Model))
+{
+    <li class="nav-item">
+        <img src="@Model" class="rounded-circle z-depth-0" alt="avatar image" height="35" width="35">
+    </li>
+}

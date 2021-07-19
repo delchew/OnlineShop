@@ -1,0 +1,22 @@
+﻿@model ProductViewModel
+
+@if ((bool)ViewData["productIsFavorite"])
+{
+    <a class="text-dark"
+       asp-controller="FavoriteProducts"
+       asp-action="RemoveFromFavorites"
+       asp-route-id="@Model.Id"
+       data-toggle="tooltip" data-placement="top" title="Удалить из избранного">
+        @await Html.PartialAsync("/Views/Shared/IconsPartial/FilledStarIconPartial.cshtml")
+    </a>
+}
+else
+{
+    <a class="text-dark"
+       asp-controller="FavoriteProducts"
+       asp-action="AddToFavorites"
+       asp-route-id="@Model.Id"
+       data-toggle="tooltip" data-placement="top" title="Добавить в избранное">
+        @await Html.PartialAsync("/Views/Shared/IconsPartial/EmptyStarIconPartial.cshtml")
+    </a>
+}

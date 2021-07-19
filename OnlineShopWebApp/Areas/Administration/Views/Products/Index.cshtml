@@ -1,0 +1,103 @@
+﻿<!-- Products Administration-->
+@{
+    ViewData["Title"] = "Товары. Алминистрирование.";
+}
+@model ProductsPageViewModel
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog modal-dialog-centered"></div>
+</div>
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminPanelPartial")
+    </div>
+    <div class="col-10">
+        <h3 class="text-center">Товары</h3>
+        <table class="table">
+            <thead>
+                <tr class="alert alert-dark">
+                    <th>img</th>
+                    <th>Название</th>
+                    <th>Цвет</th>
+                    <th>Год</th>
+                    <th>Страна</th>
+                    <th colspan="2">Цена</th>
+                    <th>
+                        <a class="text-dark"
+                           asp-area="Administration"
+                           asp-controller="Products"
+                           asp-action="Add"
+                           data-toggle="tooltip" data-placement="top" title="Добавить новый товар">
+                            @await Html.PartialAsync("/Views/Shared/IconsPartial/AddIconPartial.cshtml")
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                <tr>
+                    @{var imageUrl = product.ProductImages?.FirstOrDefault()?.ImageUrl ?? product.ImageUrl;} 
+                    <td><img src="@imageUrl" alt="@product.ToString()" width="30" /></td>
+                    <td>
+                        <a class="text-dark"
+                           asp-area="Administration"
+                           asp-controller="Products"
+                           asp-action="ShowProductDetails"
+                           asp-route-id="@product.Id"
+                           data-toggle="tooltip" data-placement="top" title="Подробнее">@product.ToString()</a>
+                    </td>
+                    <td>@product.Color</td>
+                    <td>@product.ModelYear</td>
+                    <td>@product.Country</td>
+                    <td>@product.Cost @Constants.RubleSign</td>
+                    <td>
+                        <a class="text-dark"
+                           asp-area="Administration"
+                           asp-controller="Products"
+                           asp-action="Edit"
+                           asp-route-id="@product.Id"
+                           data-toggle="tooltip" data-placement="top" title="Редактировать">
+                            @await Html.PartialAsync("/Views/Shared/IconsPartial/EditIconPartial.cshtml")
+                        </a>
+                    </td>
+                    @if (product.IsDeleted)
+                    {
+                        <td>Удалён</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="text-dark removeIcon"
+                               asp-area="Administration"
+                               asp-controller="Products"
+                               asp-action="ConfirmRemoving"
+                               asp-route-id="@product.Id"
+                               data-toggle="tooltip" data-placement="top" title="Удалить">
+                                @await Html.PartialAsync("/Views/Shared/IconsPartial/RemoveIconPartial.cshtml")
+                            </a>
+                        </td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+        @await Html.PartialAsync("PaginationPartial", Model);
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".removeIcon").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+}

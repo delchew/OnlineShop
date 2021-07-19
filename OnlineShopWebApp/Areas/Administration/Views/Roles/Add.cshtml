@@ -1,0 +1,42 @@
+﻿<!--Add role-->
+@model RoleViewModel
+@{
+    ViewData["Title"] = "Добавить новую роль";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form method="post">
+                <h6>Добавить новую роль</h6>
+                <div class="mb-3">
+                    <input name="roleName" asp-for="Name" class="form-control" placeholder="Название роли">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-primary btn-block"
+                                role="button"
+                                type="submit"
+                                asp-area="Administration"
+                                asp-controller="Roles"
+                                asp-action="Add">
+                            Добавить роль
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-outline-dark btn-block"
+                           role="button"
+                           asp-area="Administration"
+                           asp-controller="Roles"
+                           asp-action="Index">
+                            Отмена
+                        </a>
+                    </div>
+                </div>
+
+                <div class="text-danger font-weight-bold" asp-validation-summary="All"></div>
+
+            </form>
+        </div>
+    </div>
+</div>

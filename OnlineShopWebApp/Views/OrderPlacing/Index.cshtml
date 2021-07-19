@@ -1,0 +1,107 @@
+﻿<!--Order Placing-->
+@model OrderViewModel 
+@{
+    ViewData["Title"] = "Оформление заказа";
+}
+<div class="row">
+    <h3>Оформление заказа</h3>
+</div>
+<div class="row">
+    <div class="col-6">
+        <form method="post">
+
+            <h6>Контактные данные</h6>
+            <div class="mb-3">
+                <input asp-for="DeliveryContact.Name" class="form-control" placeholder="Имя получателя">
+                <span asp-validation-for="DeliveryContact.Name" class="text-danger font-weight-bold"></span>
+            </div>
+            <div class="mb-3">
+                <input asp-for="DeliveryContact.Surname" class="form-control" placeholder="Фамилия получателя">
+                <span asp-validation-for="DeliveryContact.Surname" class="text-danger font-weight-bold"></span>
+            </div>
+            <div class="mb-3">
+                <input asp-for="DeliveryContact.PhoneNumber" class="form-control" placeholder="Номер телефона получателя">
+                <span asp-validation-for="DeliveryContact.PhoneNumber" class="text-danger font-weight-bold"></span>
+            </div>
+
+            <div class="mb-3">
+                <textarea asp-for="Note" class="form-control" placeholder="Примечания по заказу"></textarea>
+            </div>
+
+            <script src="~/js/checkDeliveryType.js"></script>
+
+            <h6>Способ доставки</h6>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-check">
+                        <input id="courierRadioButton" asp-for="DeliveryType" class="form-check-input" type="radio" onclick="checkDeliveryType()" value="courier" checked>
+                        <label class="form-check-label">
+                            Доставка курьером - от 400&#8381;
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-check">
+                        <input id="pickUpRadioButton" asp-for="DeliveryType" class="form-check-input" type="radio" onclick="checkDeliveryType()" value="pickUp">
+                        <label class="form-check-label">
+                            Самовывоз
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div id="hiddenBlock">
+                <h6>Адрес доставки</h6>
+                <div class="mb-3">
+                    <input asp-for="Address.Locality" class="form-control" placeholder="Город">
+                </div>
+                <div class="mb-3">
+                    <input asp-for="Address.Street" class="form-control" placeholder="Улица">
+                </div>
+                <div class="mb-3">
+                    <input asp-for="Address.BuildingNumber" class="form-control" placeholder="Номер дома">
+                </div>
+                <div class="mb-3">
+                    <input asp-for="Address.FlatOfficeNumber" class="form-control" placeholder="Номер квартиры">
+                </div>
+                <div class="text-danger font-weight-bold" asp-validation-summary="All"></div>
+            </div>
+
+            <h6>Способ оплаты</h6>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <div class="form-check">
+                        <input asp-for="PaymentWay" class="form-check-input" type="radio" value="Cash" checked>
+                        <label class="form-check-label">
+                            Наличными
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-check col-6">
+                        <input asp-for="PaymentWay" class="form-check-input" type="radio" value="BankCard">
+                        <label class="form-check-label">
+                            Картой
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-block"
+                    role="button"
+                    type="submit"
+                    asp-controller="OrderPlacing"
+                    asp-action="PlaceOrder">
+                Оформить заказ
+            </button>
+        </form>
+    </div>
+
+    <div class="col-6">
+        @await Component.InvokeAsync("OrderPlacingUserCart")
+    </div>
+</div>
+
+

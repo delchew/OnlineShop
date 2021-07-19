@@ -1,0 +1,39 @@
+﻿<!--Register-->
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+<div class="row gy-5">
+    <div class="col-4 offset-4 text-center">
+        <h3 class="text-center">Регистрация</h3>
+        <form method="post">
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl">
+            <div class="mb-3">
+                <input asp-for="Email" class="form-control" placeholder="Логин">
+            </div>
+
+            <div class="mb-3">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Пароль">
+            </div>
+
+            <div class="mb-3">
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Подтвердите пароль">
+            </div>
+
+            <div class="mb-3">
+                <div class="text-center">
+                    <button class="btn btn-dark btn-block"
+                            role="button"
+                            type="submit"
+                            asp-controller="Account"
+                            asp-action="Register">
+                        Зарегистрироваться
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-danger font-weight-bold" asp-validation-summary="All"></div>
+
+        </form>
+    </div>
+</div>

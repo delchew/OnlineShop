@@ -1,0 +1,57 @@
+﻿<!--Product View-->
+@model ProductViewModel
+@{
+    ViewData["Title"] = Model.ToString();
+}
+
+@if (Model == null)
+{
+    <h4>Товар не найден.</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-4 offset-4">
+                <h4>@Model.Brand @Model.Title</h4>
+                @if (Model.ProductImages.Count < 2)
+                {
+                    var imageUrl = Model.ProductImages.Count == 1 ? Model.ProductImages[0].ImageUrl : Model.ImageUrl;
+                    <div>
+                        <img src="@imageUrl" alt="@Model.ToString()"/>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        @for (int i = 0; i < Model.ProductImages.Count; i++)
+                        {
+                            <img src="@Model.ProductImages[i].ImageUrl" alt="@Model.Brand @Model.Title image @i">
+                        }
+                    </div>
+                }
+
+                <p>Страна производитель: @Model.Country</p>
+                <p>Год выпуска модели: @Model.ModelYear</p>
+                <p>Цвет кузова: @Model.Color</p>
+                <p><b>Цена:</b> @Model.Cost @Constants.RubleSign</p>
+                <p>
+                    <a class="btn btn-outline-dark btn-block"
+                       role="button"
+                       asp-controller="Cart"
+                       asp-action="AddToCart"
+                       asp-route-Id="@Model.Id">В корзину</a>
+                </p>
+                <p>
+                    <a class="btn btn-outline-dark btn-block"
+                       role="button"
+                       asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-pageNumber="@TempData["lastPageNumber"]">К покупкам</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+}

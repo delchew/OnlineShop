@@ -1,0 +1,84 @@
+﻿<!--Comparable Products-->
+@model IEnumerable<ProductViewModel>
+@{
+    ViewData["Title"] = "Сравнить товары";
+}
+<div>
+    <h2>Сравнить</h2>
+    @if (Model == null || Model.Count() == 0)
+    {
+        <h2></h2>
+        <p>Нет товаров для сравнения</p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr class="alert alert-dark">
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Цвет</th>
+                            <th>Год</th>
+                            <th>Страна изготовитель</th>
+                            <th colspan="2">Цена</th>
+                            <th>
+                                <a class="text-dark"
+                                   data-toggle="tooltip" data-placement="top" title="Очистить сравнения"
+                                   asp-controller="ComparableProducts"
+                                   asp-action="ClearComparables">
+                                   @await Html.PartialAsync("/Views/Shared/IconsPartial/RemoveIconPartial.cshtml")
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{var number = 1;}
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <th>@number</th>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Product"
+                                       asp-action="Index"
+                                       asp-route-id="@product.Id">
+                                       @product.ToString()
+                                    </a>
+                                </td>
+                                <td>@product.Color</td>
+                                <td>@product.ModelYear</td>
+                                <td>@product.Country</td>
+                                <td>@product.Cost @Constants.RubleSign</td>
+                                <td>
+                                    <p>
+                                        <a class="text-dark"
+                                           data-toggle="tooltip" data-placement="top" title="В корзину"
+                                           asp-controller="Cart"
+                                           asp-action="AddToCart"
+                                           asp-route-id="@product.Id">
+                                           @await Html.PartialAsync("/Views/Shared/IconsPartial/CartIconPartial.cshtml") 
+                                        </a>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <a class="text-dark"
+                                           data-toggle="tooltip" data-placement="top" title="Удалить из сравнений"
+                                           asp-controller="ComparableProducts"
+                                           asp-action="RemoveFromComparablesList"
+                                           asp-route-id="@product.Id">
+                                            @await Html.PartialAsync("/Views/Shared/IconsPartial/RemoveIconPartial.cshtml")
+                                        </a>
+                                    </p>
+                                </td>
+                            </tr>
+                            number++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

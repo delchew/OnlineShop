@@ -1,0 +1,28 @@
+﻿@model UserCartViewModel
+
+<text>Ваш заказ</text>
+<table class="table">
+    <thead>
+        <tr class="alert alert-dark">
+            <th>#</th>
+            <th>Название</th>
+            <th>Количество</th>
+            <th colspan="3">Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{var number = 1;}
+        @foreach (var cartItem in Model.CartItems)
+        {
+            var сost = cartItem.Product.Cost * cartItem.Quantity;
+            <tr>
+                <th>@number</th>
+                <td>@cartItem.Product.ToString()</td>
+                <td>@cartItem.Quantity</td>
+                <td>@сost @Constants.RubleSign</td>
+            </tr>
+            number++;
+        }
+    </tbody>
+</table>
+<p class="alert alert-dark font-weight-bold">Итого: @Model.TotalCost @Constants.RubleSign</p>

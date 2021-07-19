@@ -1,0 +1,23 @@
+﻿<!--User Account Index-->
+@model UserViewModel
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+<div class="row">
+    <div class="col-2">
+        @await Component.InvokeAsync("PersonalPanel")
+    </div>
+    <div class="col-6">
+        <p><b>E-mail:</b> @Model.Email</p>
+        <p><b>Имя:</b> @Model.Name</p>
+        <p><b>Фамилия</b> @Model.Surname</p>
+        <p><b>Номер телефона:</b> @Model.PhoneNumber</p>
+        <a class="btn btn-primary btn-block"
+                role="button"
+                asp-area="PersonalAccount"
+                asp-controller="PersonalAccount"
+                asp-action="Edit">
+            Изменить
+        </a>
+    </div>
+</div>

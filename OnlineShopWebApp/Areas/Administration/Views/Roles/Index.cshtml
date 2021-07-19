@@ -1,0 +1,51 @@
+﻿<!-- Roles Administration-->
+@{
+    ViewData["Title"] = "Роли. Администрирование";
+}
+@model IEnumerable<RoleViewModel>
+    <div class="row">
+        <div class="col-2">
+            @await Html.PartialAsync("AdminPanelPartial")
+        </div>
+        <div class="col-10">
+            <h3 class="text-center">Роли</h3>
+            <table class="table">
+                <thead>
+                    <tr class="alert alert-dark">
+                        <th>#</th>
+                        <th> Название</th>
+                        <th>
+                            <a class="text-dark"
+                               asp-area="Administration"
+                               asp-controller="Roles"
+                               asp-action="Add"
+                               data-toggle="tooltip" data-placement="top" title="Добавить новую роль">
+                                @await Html.PartialAsync("/Views/Shared/IconsPartial/AddIconPartial.cshtml")
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var number = 0;} 
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <th>@number</th>
+                            <td>@role.Name</td>
+                            <td>
+                                <a class="text-dark"
+                                   asp-area="Administration"
+                                   asp-controller="Roles"
+                                   asp-action="Remove"
+                                   asp-route-name="@role.Name"
+                                   data-toggle="tooltip" data-placement="top" title="Удалить">
+                                    @await Html.PartialAsync("/Views/Shared/IconsPartial/RemoveIconPartial.cshtml")
+                                </a>
+                            </td>
+                        </tr>
+                        number++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

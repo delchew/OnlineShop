@@ -1,0 +1,104 @@
+﻿<!--Personal account specified order-->
+@model OrderInfoViewModel
+@{
+    ViewData["Title"] = "Просмотр заказа";
+}
+<div class="row">
+    <div class="col-2">
+        @await Component.InvokeAsync("PersonalPanel")
+    </div>
+    <div class="col-10">
+        <div class="row">
+            <div class="col">
+                <h4 class="text-center">Заказ № @Model.Id</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <table class="table">
+                    <thead>
+                        <tr class="alert alert-dark">
+                            <th>Дата</th>
+                            <th>@Model.Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Получатель</td>
+                            <td>@Model.ReceiverName</td>
+                        </tr>
+                        <tr>
+                            <td>Номер телефона</td>
+                            <td>@Model.PhoneNumber</td>
+                        </tr>
+                        <tr>
+                            <td>Доставка</td>
+                            <td>@Model.DeliveryType</td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(Model.Address))
+                        {
+                            <tr>
+                                <td>Адрес доставки</td>
+                                <td>@Model.Address</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>Оплата</td>
+                            <td>@Model.PaymentWay</td>
+                        </tr>
+                        <tr>
+                            <td>Примечание</td>
+                            <td>@Model.Note</td>
+                        </tr>
+                        <tr>
+                            <td>Статус заказа</td>
+                            <td>@Model.OrderStatus</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <table class="table">
+                    <thead>
+                        <tr class="alert alert-dark">
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Количество</th>
+                            <th>Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{var number = 1;}
+                        @foreach (var cartItem in Model.CartItems)
+                        {
+                            var сost = cartItem.Product.Cost * cartItem.Quantity;
+                            <tr>
+                                <th>@number</th>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-route-area=""
+                                       asp-controller="Product"
+                                       asp-action="Index"
+                                       asp-route-id="@cartItem.Product.Id">
+                                        @cartItem.Product.ToString()
+                                    </a>
+                                </td>
+                                <td>@cartItem.Quantity</td>
+                                <td>@сost @Constants.RubleSign</td>
+                            </tr>
+                            number++;
+                        }
+                    </tbody>
+                </table>
+                <p class="alert alert-dark font-weight-bold">Итого: @Model.TotalCost @Constants.RubleSign</p>
+                <a class="btn btn-outline-dark btn-block"
+                   role="button"
+                   asp-area="PersonalAccount"
+                   asp-controller="PersonalAccount"
+                   asp-action="Orders">
+                    Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

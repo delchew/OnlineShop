@@ -1,0 +1,42 @@
+﻿<!--Show Product Details-->
+@model ProductViewModel
+@{
+    ViewData["Title"] = Model.ToString();
+}
+
+@if (Model == null)
+{
+    <h4>Товар не найден.</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-4 offset-4">
+                @if (Model.ProductImages.Count < 2)
+                {
+                    var imageUrl = Model.ProductImages.Count == 1 ? Model.ProductImages[0].ImageUrl : Model.ImageUrl;
+                    <div>
+                        <img src="@imageUrl" alt="@Model.ToString()" />
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        @for (int i = 0; i < Model.ProductImages.Count; i++)
+                        {
+                            <img src="@Model.ProductImages[i].ImageUrl" alt="@Model.Brand @Model.Title image @i">
+                        }
+                    </div>
+                }
+                <p><b>Id:</b> @Model.Id</p>
+                <p><b>Марка:</b> @Model.Brand</p>
+                <p><b>Название:</b> @Model.Title</p>
+                <p><b>Страна производитель:</b> @Model.Country</p>
+                <p><b>Год выпуска модели:</b> @Model.ModelYear</p>
+                <p><b>Цвет кузова:</b> @Model.Color</p>
+                <p><b>Цена:</b> @Model.Cost @Constants.RubleSign</p>
+            </div>
+        </div>
+    </div>
+}

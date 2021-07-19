@@ -1,0 +1,46 @@
+﻿<!-- Orders Administration-->
+@{
+    ViewData["Title"] = "Заказы. Админимтрирование";
+}
+@model IEnumerable<OrderViewModel>
+    <div class="row">
+        <div class="col-2">
+            @await Html.PartialAsync("AdminPanelPartial")
+        </div>
+        <div class="col-10">
+            <h3 class="text-center">Заказы</h3>
+            <table class="table">
+                <thead>
+                    <tr class="alert alert-dark">
+                        <th>№ Заказа</th>
+                        <th>Получатель</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                        <th colspan="2">Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <th>@order.Id</th>
+                            <td>@order.DeliveryContact.Name @order.DeliveryContact.Surname</td>
+                            <td>@order.TotalCost @Constants.RubleSign</td>
+                            <td>@order.OrderStatus.GetDescription()</td>
+                            <td>@order.Date</td>
+                            <td>
+                                <a class="text-dark"
+                                   data-toggle="tooltip" data-placement="top" title="Подробнее"
+                                   asp-area="Administration"
+                                   asp-controller="Orders"
+                                   asp-action="Edit"
+                                   asp-route-id="@order.Id">
+                                    <b>@await Html.PartialAsync("/Views/Shared/IconsPartial/EyeIconPartial.cshtml")</b>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

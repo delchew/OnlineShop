@@ -1,0 +1,43 @@
+﻿<!--Assign user role-->
+@model AssignRoleViewModel
+@{
+    ViewData["Title"] = "Назначить роли";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form method="post">
+                <h6>Назначить роли пользователю</h6>
+                <div class="mb-3">
+                    <input readonly asp-for="UserId" class="form-control">
+                </div>
+                <div class="mb-3">
+                    @foreach (var role in Model.RolesList)
+                    {
+                        var check = Model.UserRoles.Contains(role.Name) ? "checked" : string.Empty;
+                        <div class="form-check">
+                            <input @check name="roles" class="form-check-input" type="checkbox" value="@role.Name" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">@role.Name</label>
+                        </div>
+                    }
+                </div>
+                <button class="btn btn-primary btn-block"
+                        role="button"
+                        type="submit"
+                        asp-area="Administration"
+                        asp-controller="Users"
+                        asp-action="AssignRole">
+                    Сохранить изменения
+                </button>
+                <a class="btn btn-outline-dark btn-block"
+                   role="button"
+                   asp-area="Administration"
+                   asp-controller="Users"
+                   asp-action="Index">
+                    Отмена
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-route-area="" asp-controller="Home" asp-action="Index" data-toggle="tooltip" data-placement="top" title="Домой">
+                            @await Html.PartialAsync("/Views/Shared/IconsPartial/HomeIconPartial.cshtml")
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" class="form-inline text-dark">
+                            @{var searchString = (string)ViewData["searchString"] ?? string.Empty;}
+                            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Найти" name="searchString" value="@searchString">
+                            <button class="btn btn-outline-secondary my-2 my-sm-0"
+                                    type="submit"
+                                    role="button"
+                                    asp-route-area=""
+                                    asp-controller="Search"
+                                    asp-action="Index">
+                                @await Html.PartialAsync("/Views/Shared/IconsPartial/SearchIconPartial.cshtml")
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                <ul class="navbar-nav flex-grow-1">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @await Component.InvokeAsync("HeaderAvatar")
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @User.Identity.Name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-area="PersonalAccount" asp-controller="PersonalAccount" asp-action="Index">Личный кабинет</a>
+                                <a class="dropdown-item" asp-route-area="" asp-controller="Account" asp-action="SignOut">Выход</a>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-route-area="" asp-controller="Account" asp-action="Login">Вход</a>
+                        </li>
+                    }
+                    @if (User.IsInRole(Constants.AdminRoleName))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Administration" asp-controller="Orders" asp-action="Index">Администрирование</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-route-area="" asp-controller="FavoriteProducts" asp-action="Index">
+                            Избранное
+                            @await Component.InvokeAsync("FavoritesCount")
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-route-area="" asp-controller="ComparableProducts" asp-action="Index">
+                            Сравнить
+                            @await Component.InvokeAsync("ComparesCount")
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-route-area="" asp-controller="Cart" asp-action="Index">
+                            @await Html.PartialAsync("/Views/Shared/IconsPartial/CartIconPartial.cshtml")
+                            @await Component.InvokeAsync("Cart")
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

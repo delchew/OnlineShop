@@ -1,0 +1,96 @@
+﻿<!--Edit product-->
+@model ProductViewModel
+@{
+    ViewData["Title"] = Model.ToString();
+}
+
+@if (Model == null)
+{
+    <h4>Товар не найден.</h4>
+}
+else
+{
+    <div class="container">
+        @if (Model.ProductImages == null)
+        {
+            <div class="row">
+                <div class="col-4 offset-4">
+                    <img src="@Model.ImageUrl">
+                </div>
+            </div>
+        }
+        else
+        {
+            int j;
+            for (int i = 0; i < Model.ProductImages.Count; i += j)
+            {
+                <div class="row">
+                    @for (j = 0; j < 3 && i + j < Model.ProductImages.Count; j++)
+                    {
+                        <div class="col-4">
+                            <img src="@Model.ProductImages[i + j].ImageUrl" height="200">
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        <div class="row">
+            <div class="col-6 offset-3">
+                <form method="post" enctype="multipart/form-data">
+                    <h6>Изменение параметров товара</h6>
+                    <div class="mb-3">
+                        <input asp-for="Id" type="hidden" class="form-control" value="@Model.Id">
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="ImageUrl" type="hidden" class="form-control" value="@Model.ImageUrl">
+                    </div>
+                    <div class="mb-3">
+                        <small>Загрузить ещё изображения</small>
+                        <input type="file" class="form-control" name="UploadedFiles" multiple accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="Brand" class="form-control" placeholder="Марка" value="@Model.Brand">
+                        <span asp-validation-for="Brand" class="text-danger font-weight-bold"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="Title" class="form-control" placeholder="Название" value="@Model.Title">
+                        <span asp-validation-for="Title" class="text-danger font-weight-bold"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="Color" class="form-control" placeholder="Цвет" value="@Model.Color">
+                        <span asp-validation-for="Color" class="text-danger font-weight-bold"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="ModelYear" class="form-control" placeholder="Год выпуска" value="@Model.ModelYear">
+                        <span asp-validation-for="ModelYear" class="text-danger font-weight-bold"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="Country" class="form-control" placeholder="Страна" value="@Model.Country">
+                        <span asp-validation-for="Country" class="text-danger font-weight-bold"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="Cost" class="form-control" placeholder="Цена" value="@Model.Cost">
+                        <span asp-validation-for="Cost" class="text-danger font-weight-bold"></span>
+                    </div>
+
+                    <button class="btn btn-primary btn-block"
+                            role="button"
+                            type="submit"
+                            asp-area="Administration"
+                            asp-controller="Products"
+                            asp-action="Edit">
+                        Сохранить изменения
+                    </button>
+                    <a class="btn btn-outline-dark btn-block"
+                       role="button"
+                       asp-area="Administration"
+                       asp-controller="Products"
+                       asp-action="Index">
+                        Отмена
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+}

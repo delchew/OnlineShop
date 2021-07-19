@@ -1,0 +1,54 @@
+﻿<!--User Account Edit User Data-->
+@model UserViewModel
+@{
+    ViewData["Title"] = "Изменить личные данные";
+}
+<div class="row">
+    <div class="col-2">
+        @await Component.InvokeAsync("PersonalPanel")
+    </div>
+    <div class="col-6">
+        <form method="post" enctype="multipart/form-data">
+            <h3 class="text-center">Личные данные</h3>
+            <div class="mb-3">
+                <input hidden asp-for="AvatarImageUrl" class="form-control">
+                <input hidden asp-for="UserName" class="form-control">
+            </div>
+            <div class="mb-3">
+                <input readonly asp-for="Email" class="form-control" placeholder="e-mail">
+                <span asp-validation-for="Email" class="text-danger font-weight-bold"></span>
+            </div>
+            <div class="mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Имя">
+                <span asp-validation-for="Name" class="text-danger font-weight-bold"></span>
+            </div>
+            <div class="mb-3">
+                <input asp-for="Surname" class="form-control" placeholder="Фамилия">
+                <span asp-validation-for="Surname" class="text-danger font-weight-bold"></span>
+            </div>
+            <div class="mb-3">
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Номер телефона">
+                <span asp-validation-for="PhoneNumber" class="text-danger font-weight-bold"></span>
+            </div>
+            <div class="mb-3">
+                <small>Загрузить аватар</small>
+                <input type="file" class="form-control" name="UploadedFile" accept="image/*">
+            </div>
+            <button class="btn btn-primary btn-block"
+                    role="button"
+                    type="submit"
+                    asp-area="PersonalAccount"
+                    asp-controller="PersonalAccount"
+                    asp-action="Edit">
+                Сохранить изменения
+            </button>
+            <a class="btn btn-outline-dark btn-block"
+               role="button"
+               asp-area="PersonalAccount"
+               asp-controller="PersonalAccount"
+               asp-action="Index">
+                Отмена
+            </a>
+        </form>
+    </div>
+</div>

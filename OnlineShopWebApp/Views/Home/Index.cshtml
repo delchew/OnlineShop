@@ -1,0 +1,62 @@
+﻿<!--Home View-->
+@model ProductsPageViewModel
+@{
+    TempData["lastPageNumber"] = Model.Page.PageNumber;
+    ViewData["Title"] = "Каталог товаров";
+}
+<div class="container">
+    @if (Model.Products == null)
+    {
+        <h3>Нет товаров для продажи</h3>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row p-2 m-2">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-3">
+                        <div class="p-2 m-2 border bg-light">
+                            @if (product.ProductImages.Count < 2)
+                            {
+                                var imageUrl = product.ProductImages.Count == 1 ? product.ProductImages[0].ImageUrl : product.ImageUrl;
+                                <div class="item">
+                                    <img src="@imageUrl" alt="@Model.ToString()" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="item">
+                                    @for (int i = 0; i < product.ProductImages.Count; i++)
+                                    {
+                                        <img src="@product.ProductImages[i].ImageUrl" alt="@product.Brand @product.Title image @i">
+                                    }
+                                </div>
+                            }
+
+                            @await Component.InvokeAsync("AddAndRemoveFromFavoritesButton", product)
+                            @await Component.InvokeAsync("AddAndRemoveFromComparesButton", product)<br>
+
+                            <a class="text-dark"
+                               asp-controller="Product"
+                               asp-action="Index"
+                               asp-route-id="@product.Id">@product.ToString()</a><br>
+
+                            @product.Color<br>
+
+                            @product.ModelYear<br>
+
+                            Цена: @product.Cost @Constants.RubleSign<br>
+                            <a class="btn btn-outline-dark"
+                               role="button"
+                               asp-controller="Cart"
+                               asp-action="AddToCart"
+                               asp-route-id="@product.Id">В корзину</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        @await Html.PartialAsync("PaginationPartial", Model);
+    }
+</div>

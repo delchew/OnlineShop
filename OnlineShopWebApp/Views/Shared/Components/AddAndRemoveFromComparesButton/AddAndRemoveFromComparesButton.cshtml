@@ -1,0 +1,22 @@
+﻿@model ProductViewModel
+
+@if ((bool)ViewData["productIsComparable"])
+{
+    <a class="text-dark"
+       asp-controller="ComparableProducts"
+       asp-action="RemoveFromComparables"
+       asp-route-id="@Model.Id"
+       data-toggle="tooltip" data-placement="top" title="Удалить из списка сравнения">
+        @await Html.PartialAsync("/Views/Shared/IconsPartial/FilledChartsIconPartial.cshtml")
+    </a>
+}
+else
+{
+    <a class="text-dark"
+       asp-controller="ComparableProducts"
+       asp-action="AddToComparables"
+       asp-route-id="@Model.Id"
+       data-toggle="tooltip" data-placement="top" title="Сравнить">
+        @await Html.PartialAsync("/Views/Shared/IconsPartial/EmptyChartsIconPartial.cshtml")
+    </a>
+}

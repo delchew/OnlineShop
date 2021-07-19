@@ -1,0 +1,105 @@
+﻿<!--Order Editing-->
+@model OrderViewModel
+@{
+    ViewData["Title"] = "Просмотр и редактирование заказа";
+}
+
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminPanelPartial")
+    </div>
+    <div class="col-10">
+        <form method="post">
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr class="alert alert-dark">
+                                <th>Номер заказа</th>
+                                <th>@Model.Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Дата</td>
+                                <td>@Model.Date.ToShortDateString()</td>
+                            </tr>
+                            <tr>
+                                <td>Получатель</td>
+                                <td>@Model.DeliveryContact.Name @Model.DeliveryContact.Surname</td>
+                            </tr>
+                            <tr>
+                                <td>Номер телефона</td>
+                                <td>@Model.DeliveryContact.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Электронная почта</td>
+                                <td>@User.Identity.Name</td>
+                            </tr>
+                            <tr>
+                                <td>Доставка</td>
+                                <td>@Model.DeliveryType.GetDescription()</td>
+                            </tr>
+                            @if (Model.DeliveryType == DeliveryType.Courier)
+                            {
+                                <tr>
+                                    <td>Адрес доставки</td>
+                                    <td>@Model.Address.ToString()</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>Оплата</td>
+                                <td>@Model.PaymentWay.GetDescription()</td>
+                            </tr>
+                            <tr>
+                                <td>Примечание заказчика</td>
+                                <td>@Model.Note</td>
+                            </tr>
+                            <tr>
+                                <td>Статус заказа</td>
+                                <td>
+                                    <select class="form-control" name="orderStatus">
+                                        @foreach (var item in Enum.GetValues(typeof(OrderStatus)))
+                                        {
+                                            var enumItem = (OrderStatus)item;
+                                            if (enumItem == Model.OrderStatus)
+                                            {
+                                                <option value="@enumItem.ToString()" selected>@enumItem.GetDescription()</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@enumItem.ToString()">@enumItem.GetDescription()</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="hidden" class="form-control" name="id" value="@Model.Id">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <button class="btn btn-primary btn-block"
+                            role="button"
+                            type="submit"
+                            asp-area="Administration"
+                            asp-controller="Orders"
+                            asp-action="Edit">
+                        Сохранить изменения
+                    </button>
+                </div>
+                <div class="col-3">
+                    <a class="btn btn-outline-dark btn-block"
+                       role="button"
+                       asp-area="Administration"
+                       asp-controller="Orders"
+                       asp-action="Index">
+                        Отмена
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

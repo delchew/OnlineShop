@@ -1,0 +1,32 @@
+﻿<!-- Personal account panel -->
+@model string
+@if (!string.IsNullOrEmpty(Model))
+{
+    <img src="@Model" class="img-fluid img-thumbnail" alt="user_avatar" />
+    <a class="btn btn-outline-secondary btn-sm btn-block"
+       role="button"
+       asp-area="PersonalAccount"
+       asp-controller="PersonalAccount"
+       asp-action="DeleteAvatar">Удалить аватар</a>
+}
+    <div class="list-group">
+        <a class="list-group-item text-dark"
+           asp-area="PersonalAccount"
+           asp-controller="PersonalAccount"
+           asp-action="Index">Личные данные</a>
+
+        <a class="list-group-item text-dark"
+           asp-area="PersonalAccount"
+           asp-controller="PersonalAccount"
+           asp-action="Orders">Заказы</a>
+
+        <a class="list-group-item text-dark"
+           asp-area="PersonalAccount"
+           asp-controller="PersonalAccount"
+           asp-action="ChangePassword">Смена пароля</a>
+
+        <a class="list-group-item text-dark"
+           asp-area="PersonalAccount"
+           asp-controller="PersonalAccount"
+           asp-action="Index">Адреса</a>
+    </div>

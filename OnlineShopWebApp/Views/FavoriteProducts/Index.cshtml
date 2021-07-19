@@ -1,0 +1,81 @@
+﻿<!--Favorite Products-->
+@model IEnumerable<ProductViewModel>
+@{
+    ViewData["Title"] = "Избранное";
+}
+<div>
+    <h2>Избранное</h2>
+    @if (Model == null || Model.Count() == 0)
+    {
+        <h2></h2>
+        <p>В избранном нет ни одного товара</p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-8">
+                <table class="table">
+                    <thead>
+                        <tr class="alert alert-dark">
+                            <th>#</th>
+                            <th>Фото</th>
+                            <th>Название</th>
+                            <th colspan="2">Цена</th>
+                            <th>
+                                <a class="text-dark"
+                                   data-toggle="tooltip" data-placement="top" title="Очистить избранное"
+                                   asp-controller="FavoriteProducts"
+                                   asp-action="ClearFavorites">
+                                    @await Html.PartialAsync("/Views/Shared/IconsPartial/RemoveIconPartial.cshtml")
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{var number = 1;}
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <th>@number</th>
+                                @{var imageUrl = product.ProductImages?.FirstOrDefault()?.ImageUrl ?? product.ImageUrl;}
+                                <th><img src="@imageUrl" alt="@product.ToString()" width="50" /></th>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Product"
+                                       asp-action="Index"
+                                       asp-route-id="@product.Id">
+                                        @product.ToString()
+                                    </a>
+                                </td>
+                                <td>@product.Cost @Constants.RubleSign</td>
+                                <td>
+                                    <p>
+                                        <a class="text-dark"
+                                           data-toggle="tooltip" data-placement="top" title="В корзину"
+                                           asp-controller="Cart"
+                                           asp-action="AddToCart"
+                                           asp-route-id="@product.Id">
+                                            @await Html.PartialAsync("/Views/Shared/IconsPartial/CartIconPartial.cshtml")
+                                        </a>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <a class="text-dark"
+                                           data-toggle="tooltip" data-placement="top" title="Удалить"
+                                           asp-controller="FavoriteProducts"
+                                           asp-action="RemoveFromFavoritesList"
+                                           asp-route-id="@product.Id">
+                                            @await Html.PartialAsync("/Views/Shared/IconsPartial/RemoveIconPartial.cshtml")
+                                        </a>
+                                    </p>
+                                </td>
+                            </tr>
+                            number++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
