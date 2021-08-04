@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  onlineshopwebapp:
+    image: ${DOCKER_REGISTRY-}onlineshopwebapp
+    build:
+      context: .
+      dockerfile: OnlineShopWebApp/Dockerfile
